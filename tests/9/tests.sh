@@ -29,19 +29,16 @@ composer require -n \
 #    does not support Drupal 9 yet
 #composer require -n drupal/cache_tags
 
-# does not yet support php 8.x
-if [[ "${PHP_VERSION:0:1}" == "7" ]]; then
-  composer require -n \
-   drupal/search_api \
-   drupal/search_api_solr:~4
-fi
+composer require -n \
+  drupal/search_api \
+  drupal/search_api_solr:~4
 
 cd ./web
 
 drush si -y --db-url="${DB_URL}"
 
 # Test Drupal status and requirements
-check_status "drush-version" "10.*"
+check_status "drush-version" "11.*"
 check_status "root" "${APP_ROOT}/${DOCROOT_SUBDIR}"
 check_status "site" "sites/default"
 check_status "files" "sites/default/files"
@@ -64,12 +61,9 @@ drush en -y \
 #  \
 #  cache_tags
 
-# does not yet support php 8.x
-if [[ "${PHP_VERSION:0:1}" == "7" ]]; then
-  drush en -y \
-    search_api \
-    search_api_solr
-fi
+drush en -y \
+  search_api \
+  search_api_solr
 
 # Enable redis
 chmod 755 "${PWD}/sites/default/settings.php"
